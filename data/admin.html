@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <style>
+.w3-theme-l5 {color:#000 !important; background-color:#eeedf5 !important}
+.w3-theme-l4 {color:#000 !important; background-color:#c5c3de !important}
+.w3-theme-l3 {color:#fff !important; background-color:#8c87bd !important}
+.w3-theme-l2 {color:#fff !important; background-color:#585295 !important}
+.w3-theme-l1 {color:#fff !important; background-color:#353159 !important}
+.w3-theme {color:#fff !important; background-color:#11101d !important}
+.w3-theme-d1 {color:#fff !important; background-color:#100f1b !important}
+.w3-theme-d2 {color:#fff !important; background-color:#0e0d18 !important}
+.w3-theme-d3 {color:#fff !important; background-color:#0c0b15 !important}
+.w3-theme-d4 {color:#fff !important; background-color:#0a0a12 !important}
+.w3-theme-d5 {color:#fff !important; }
+      /* Google Font Link */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins" , sans-serif;
+}
+.sidebar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 78px;
+  background: #11101D;
+  padding: 6px 14px;
+  z-index: 99;
+  transition: all 0.5s ease;
+}
+.sidebar.open{
+  width: 250px;
+}
+.sidebar .logo-details{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.sidebar .logo-details .icon {
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar .logo-details .logo_name{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details .icon,
+.sidebar.open .logo-details .logo_name{
+  opacity: 1;
+}
+.sidebar .logo-details #btn{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.sidebar.open .logo-details #btn{
+  text-align: right;
+}
+.sidebar i{
+  color: #fff;
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+.sidebar .nav-list{
+  margin-top: 20px;
+  height: 100%;
+}
+.sidebar li{
+  position: relative;
+  margin: 8px 0;
+  list-style: none;
+}
+.sidebar li .tooltip{
+  position: absolute;
+  top: -20px;
+  left: calc(100% + 15px);
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0s;
+}
+.sidebar li:hover .tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.4s ease;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.sidebar.open li .tooltip{
+  display: none;
+}
+.sidebar input{
+  font-size: 15px;
+  color: #FFF;
+  font-weight: 400;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  width: 50px;
+  border: none;
+  border-radius: 12px;
+  transition: all 0.5s ease;
+  background: #1d1b31;
+}
+.sidebar.open input{
+  padding: 0 20px 0 50px;
+  width: 100%;
+}
+.sidebar li a{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  background: #11101D;
+}
+.sidebar li a:hover{
+  background: #FFF;
+}
+.sidebar li a .links_name{
+  color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s;
+}
+.sidebar.open li a .links_name{
+  opacity: 1;
+  pointer-events: auto;
+}
+.sidebar li a:hover .links_name,
+.sidebar li a:hover i{
+  transition: all 0.5s ease;
+  color: #11101D;
+}
+.sidebar li i{
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  border-radius: 12px;
+}
+
+.sidebar li img{
+  height: 45px;
+  width: 45px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+.sidebar li.profile .name,
+.sidebar li.profile .job{
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  white-space: nowrap;
+}
+.sidebar li.profile .job{
+  font-size: 12px;
+}
+
+.home-section{
+  position: relative;
+  background: #E4E9F7;
+  min-height: 100vh;
+  top: 0;
+  left: 78px;
+  width: calc(100% - 78px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+.sidebar.open ~ .home-section{
+  left: 250px;
+  width: calc(100% - 250px);
+}
+.home-section .text{
+  display: inline-block;
+  color: #11101d;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 18px
+}
+.btdéco {
+       display: inline-block;
+    background-color: #36040096;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    font-family: monospace;
+  }
+  
+  .btndéco a {text-decoration: none;}
+  .btdéco:hover {
+    background-color: black;
+  }
+  
+  .btdéco .icon {
+    margin-right: 5px;
+  }
+@media (max-width: 420px) {
+  .sidebar li .tooltip{
+    display: none;
+  }
+}
+.w3-row-padding {
+    margin: 0 -10px;
+  }
+  
+  .w3-col {
+    padding: 0 10px;
+    padding: 10px;
+  }
+  
+  .w3-card {
+    /* Styles de la carte */  -webkit-text-stroke-width: thin;
+  }
+  
+
+
+
+
+  .w3-container {
+    /* Styles du contenu de la carte */ display: inline-block;
+    float: right;
+  }
+  
+
+
+@media (min-width: 755px) and (max-width: 1830px) {
+  .w3-container {
+    display: contents;
+  }
+}
+
+  /* Styles spécifiques pour les écrans de taille 'm' et 's' */
+  @media screen and (max-width: 768px) {
+    .w3-col {
+      width: 100%;
+     margin-top: 10px;
+
+    }
+  }
+  
+  @media screen and (min-width: 769px) {
+    .w3-col {
+      width: 22%;
+      margin-top: 10px;
+    }
+  }
+
+
+
+
+
+
+
+.gauge {
+      width: 100%;
+      max-width: 250px;
+      font-family: "Roboto", sans-serif;
+      font-size: 32px;
+      color: #004033;
+    }
+
+    .gauge__body {
+      width: 100%;
+      height: 0;
+      padding-bottom: 50%;
+      background: #b4c0be;
+      position: relative;
+      border-top-left-radius: 100% 200%;
+      border-top-right-radius: 100% 200%;
+      overflow: hidden;
+    }
+
+    .gauge__fill {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: inherit;
+      height: 100%;
+      background: #009578;
+      transform-origin: center top;
+      transform: rotate(0.25turn);
+      transition: transform 0.2s ease-out;
+    }
+
+    .gauge__fill.red {
+      background: #e53935;
+    }
+
+    .gauge__cover {
+      font-size: medium;
+      width: 75%;
+      height: 150%;
+      background: #ffffff;
+      border-radius: 50%;
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+
+      /* Text */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 25%;
+      box-sizing: border-box;
+    }
+
+  </style>
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-printer icon'></i>
+        <div class="logo_name">Sprint</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+        <a href="#" onclick="cardboardMenu()">
+          <i class='bx bx-package bx-md'></i>
+          <span class="links_name">Carton</span>
+        </a>
+         <span class="tooltip">Carton</span>
+      </li>
+      <li>
+        <a href="#" onclick="otherMenu()">
+          <i class='bx bx-ruler bx-md'></i>
+          <span class="links_name">Autres</span>
+        </a>
+         <span class="tooltip">Autres</span>
+      </li>
+      <li>
+       <a href="#" onclick="userMenu()">
+         <i class='bx bx-user bx-md' ></i>
+         <span class="links_name">Utilisateur</span>
+       </a>
+       <span class="tooltip">Utilisateur</span>
+     </li>
+     <li>
+       <a href="#" onclick="decoMenu()">
+         <i class='bx bx-log-out bx-md'></i>
+         <span class="links_name">Déconnexion</span>
+       </a>
+       <span class="tooltip">Déconnexion</span>
+     </li>
+    </ul>
+  </div>
+ </div>
+  <section class="home-section">
+    <div class="text" style="
+    color: white;
+    background-color: #ff2525;
+    padding: 10px;
+    border-radius: 11px;
+    display: revert;
+    padding-top: 0px !important;
+    margin-top: 0px;
+    text-align: center;">Administrateur  <img src="https://www.sprint.paris/wp-content/uploads/2022/10/LOGOS-SPRINT-web.png" style="width: 99px;"></div>
+      <div class="text">ESP32</div>
+
+      <div class="menuboard"></div>
+
+     
+
+  </section>
+  <script>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+let sidebar = document.querySelector(".sidebar");
+let closeBtn = document.querySelector("#btn");
+let cardboardBtn = document.querySelector(".bx-package");
+let otherBtn = document.querySelector(".bx-ruler");
+let userBtn = document.querySelector(".bx-user");
+let logoutBtn = document.querySelector(".bx-log-out"); // Ajout du bouton de déconnexion
+
+
+closeBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    menuBtnChange(); //calling the function(optional)
+});
+
+cardboardBtn.addEventListener("click", () => {
+    cardboardMenu();
+});
+
+otherBtn.addEventListener("click", () => {
+    otherMenu();
+});
+
+userBtn.addEventListener("click", () => {
+    userMenu();
+});
+
+logoutBtn.addEventListener("click", () => {
+    decoMenu();
+});
+
+// following are the code to change sidebar button(optional)
+function menuBtnChange() {
+    if (sidebar.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); //replacing the iocns class
+    } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
+    }
+}
+
+
+
+
+function cardboardMenu() {
+    // Récupération de la div parente
+    const parentDiv = document.querySelector(".menuboard");
+    parentDiv.innerHTML = "";
+
+    var cardboardcase = `
+    <div class="w3-row-padding">
+                                                                 <div class="w3-col">
+            <div class="w3-card w3-round-xlarge w3-theme">
+              <h2 style="text-align: center"class="w3-card w3-round-xlarge w3-theme-d5" >STOCK 01</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w3-round-large w3-white" width="25%" height="40%" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16.35.35 0 0 0-.05-.08l-.1-.13-.08-.06-.12-.09-9-5a1 1 0 0 0-1 0l-9 5-.09.07-.11.08a.41.41 0 0 0-.07.11.39.39 0 0 0-.08.1.59.59 0 0 0-.06.14.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06 9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52 6.83 3.9zm0-7.72L18.94 8 16.7 9.25 9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z"></path></svg>
+                      <div class="w3-container">        
+                      <div style="display: flex; justify-content : center;"> <h2 style="color:white;" id="dist1">dist</h2>
+                      </div> <div style="text-align: center;"> <p style="color:white; font-size: 20px;" id="bat1">100%</p></div></div></div></div>        
+
+
+
+
+
+
+
+
+                                                                   
+                    <div class="w3-col">
+
+            <div class="w3-card w3-round-xlarge w3-theme">
+              <h2 style="text-align: center"class="w3-card w3-round-xlarge w3-theme-d55" >STOCK 02</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w3-round-large w3-white" width="25%" height="40%" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16.35.35 0 0 0-.05-.08l-.1-.13-.08-.06-.12-.09-9-5a1 1 0 0 0-1 0l-9 5-.09.07-.11.08a.41.41 0 0 0-.07.11.39.39 0 0 0-.08.1.59.59 0 0 0-.06.14.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06 9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52 6.83 3.9zm0-7.72L18.94 8 16.7 9.25 9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z"></path></svg>
+                      <div class="w3-container">        
+                      <div style="display: flex; justify-content : center;"> <h2 style="color:white;" id="dist2">dist</h2>
+                      </div> <div style="text-align: center;"> <p style="color:white; font-size: 20px;" id="bat2">100%</p></div></div></div></div>        
+
+
+
+
+
+
+
+                      <div class="w3-col">
+
+            <div class="w3-card w3-round-xlarge w3-theme">
+              <h2 style="text-align: center"class="w3-card w3-round-xlarge w3-theme-d555" >STOCK 03</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w3-round-large w3-white" width="25%" height="40%" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16.35.35 0 0 0-.05-.08l-.1-.13-.08-.06-.12-.09-9-5a1 1 0 0 0-1 0l-9 5-.09.07-.11.08a.41.41 0 0 0-.07.11.39.39 0 0 0-.08.1.59.59 0 0 0-.06.14.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06 9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52 6.83 3.9zm0-7.72L18.94 8 16.7 9.25 9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z"></path></svg>
+                      <div class="w3-container">        
+                      <div style="display: flex; justify-content : center;"> <h2 style="color:white;" id="dist3">dist</h2>
+                      </div> <div style="text-align: center;"> <p style="color:white; font-size: 20px;" id="bat3">100%</p></div></div></div></div>        
+
+
+
+
+                       <div class="w3-col">
+
+            <div class="w3-card w3-round-xlarge w3-theme">
+              <h2 style="text-align: center"class="w3-card w3-round-xlarge w3-theme-d5555" >STOCK 04</h2>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w3-round-large w3-white" width="25%" height="40%" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;">
+                    <path d="M22 8a.76.76 0 0 0 0-.21v-.08a.77.77 0 0 0-.07-.16.35.35 0 0 0-.05-.08l-.1-.13-.08-.06-.12-.09-9-5a1 1 0 0 0-1 0l-9 5-.09.07-.11.08a.41.41 0 0 0-.07.11.39.39 0 0 0-.08.1.59.59 0 0 0-.06.14.3.3 0 0 0 0 .1A.76.76 0 0 0 2 8v8a1 1 0 0 0 .52.87l9 5a.75.75 0 0 0 .13.06h.1a1.06 1.06 0 0 0 .5 0h.1l.14-.06 9-5A1 1 0 0 0 22 16V8zm-10 3.87L5.06 8l2.76-1.52 6.83 3.9zm0-7.72L18.94 8 16.7 9.25 9.87 5.34zM4 9.7l7 3.92v5.68l-7-3.89zm9 9.6v-5.68l3-1.68V15l2-1v-3.18l2-1.11v5.7z"></path></svg>
+                      <div class="w3-container">        
+                      <div style="display: flex; justify-content : center;"> <h2 style="color:white;" id="dist4">dist</h2>
+                      </div> <div style="text-align: center;"> <p style="color:white; font-size: 20px;" id="bat4">100%</p></div></div></div></div>        
+
+ 
+                
+                </div>
+              </div> `;
+    /*+
+                '<div class="w3-col m2 s10">' +
+                    '<div class="w3-card w3-round-xlarge w3-theme">' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" class="w3-round-xlarge w3-white" width="40%" height="40%" viewBox="0 0 24 24" style="fill: #11101d;transform: ;msFilter:;"><path d="M12 22c4.636 0 8-3.468 8-8.246C20 7.522 12.882 2.4 12.579 2.185a1 1 0 0 0-1.156-.001C11.12 2.397 4 7.503 4 13.75 4 18.53 7.364 22 12 22zm-.001-17.74C13.604 5.55 18 9.474 18 13.754 18 17.432 15.532 20 12 20s-6-2.57-6-6.25c0-4.29 4.394-8.203 5.999-9.49z"></path></svg>' +
+                        '<div class="w3-container">' +
+                            '<h2 style="text-align: end" id="hum">hum</h2>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+        '</div>';*/
+setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp.responseText;
+            var tempval = response;
+
+            document.getElementById("dist1").innerHTML = tempval || 0;
+
+            if (tempval < 40) {
+                document.querySelector(".w3-theme-d5").style.backgroundColor = '#57ff57';
+            } else {
+                document.querySelector(".w3-theme-d5").style.backgroundColor = 'red';
+                document.getElementById("dist1").innerHTML = "Rechargez carton !";
+            }
+        }
+    };
+    xhttp.open("GET", "/dist1", true);
+    xhttp.send();
+    
+    var xhttp2 = new XMLHttpRequest();
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp2.responseText;
+            var batteryPercentage = response;
+            var batteryIcon = '';
+
+          if (batteryPercentage > 25) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(167, 216, 57, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2V8z'></path></svg>";
+} else if (batteryPercentage > 5) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(0, 0, 0, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M4 18h14c1.103 0 2-.897 2-2v-2h2v-4h-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2zM4 8h14l.002 8H4V8z'></path></svg>";
+} else {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(236, 14, 14, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 10V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2zM9 17l2-3.89L7 12l6-5-1 3.89L16 12l-7 5z'></path></svg>";
+}
+
+            document.getElementById("bat1").innerHTML = batteryIcon;
+        }
+    };
+    xhttp2.open("GET", "/bat1", true); // Modifier l'URL pour récupérer le niveau de bat1
+    xhttp2.send();
+}, 7000);
+
+
+
+
+
+
+setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp.responseText;
+            var batteryPercentage = response;
+            var tempval = response;
+
+            if (tempval < 40) {
+                document.querySelector(".w3-theme-d55").style.backgroundColor = '#57ff57';
+                document.getElementById("dist2").innerHTML = tempval;
+            } else {
+                document.querySelector(".w3-theme-d55").style.backgroundColor = 'red';
+                document.getElementById("dist2").innerHTML = "Rechargez carton !";
+            }
+        }
+    };
+    xhttp.open("GET", "/dist2", true); // Modifier l'URL pour récupérer le niveau de dist2
+    xhttp.send();
+    
+    var xhttp2 = new XMLHttpRequest();
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp2.responseText;
+            var batteryPercentage = response;
+            var batteryIcon = '';
+
+          if (batteryPercentage > 25) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(167, 216, 57, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2V8z'></path></svg>";
+} else if (batteryPercentage > 5) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(0, 0, 0, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M4 18h14c1.103 0 2-.897 2-2v-2h2v-4h-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2zM4 8h14l.002 8H4V8z'></path></svg>";
+} else {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(236, 14, 14, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 10V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2zM9 17l2-3.89L7 12l6-5-1 3.89L16 12l-7 5z'></path></svg>";
+}
+
+            document.getElementById("bat2").innerHTML = batteryIcon;
+        }
+    };
+    xhttp2.open("GET", "/bat2", true); // Modifier l'URL pour récupérer le niveau de bat2
+    xhttp2.send();
+}, 7000);
+
+
+
+
+
+
+
+
+setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+     if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp.responseText;
+            var tempval = response;
+
+            document.getElementById("dist3").innerHTML = tempval || 0;
+
+            if (tempval < 40) {
+                document.querySelector(".w3-theme-d555").style.backgroundColor = '#57ff57';
+            } else {
+                document.querySelector(".w3-theme-d555").style.backgroundColor = 'red';
+                document.getElementById("dist3").innerHTML = "Rechargez carton !";
+            }
+        }
+    };
+    xhttp.open("GET", "/dist3", true);
+    xhttp.send();
+    
+    var xhttp2 = new XMLHttpRequest();
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp2.responseText;
+            var batteryPercentage = response;
+            var batteryIcon = '';
+
+          if (batteryPercentage > 25) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(167, 216, 57, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2V8z'></path></svg>";
+} else if (batteryPercentage > 5) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(0, 0, 0, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M4 18h14c1.103 0 2-.897 2-2v-2h2v-4h-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2zM4 8h14l.002 8H4V8z'></path></svg>";
+} else {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(236, 14, 14, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 10V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2zM9 17l2-3.89L7 12l6-5-1 3.89L16 12l-7 5z'></path></svg>";
+}
+
+            document.getElementById("bat3").innerHTML = batteryIcon;
+        }
+    };
+    xhttp2.open("GET", "/bat3", true); // Modifier l'URL pour récupérer le niveau de bat3
+    xhttp2.send();
+}, 7000);
+
+
+
+
+setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp.responseText;
+            var tempval = response;
+
+            document.getElementById("dist4").innerHTML = tempval || 0;
+
+            if (tempval < 40) {
+                document.querySelector(".w3-theme-d5555").style.backgroundColor = '#57ff57';
+            } else {
+                document.querySelector(".w3-theme-d5555").style.backgroundColor = 'red';
+                document.getElementById("dist4").innerHTML = "Rechargez carton !";
+            }
+        }
+    };
+    xhttp.open("GET", "/dist4", true);
+    xhttp.send();
+    
+    var xhttp2 = new XMLHttpRequest();
+    xhttp2.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp2.responseText;
+            var batteryPercentage = response;
+            var batteryIcon = '';
+
+          if (batteryPercentage > 25) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(167, 216, 57, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2V8z'></path></svg>";
+} else if (batteryPercentage > 5) {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(0, 0, 0, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M4 18h14c1.103 0 2-.897 2-2v-2h2v-4h-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2zM4 8h14l.002 8H4V8z'></path></svg>";
+} else {
+    batteryIcon = "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' style='fill: rgba(236, 14, 14, 1);transform: scaleY(-1);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);'><path d='M20 10V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2h2v-4h-2zM9 17l2-3.89L7 12l6-5-1 3.89L16 12l-7 5z'></path></svg>";
+}
+
+            document.getElementById("bat4").innerHTML = batteryIcon;
+        }
+    };
+    xhttp2.open("GET", "/bat4", true); // Modifier l'URL pour récupérer le niveau de bat4
+    xhttp2.send();
+}, 7000);
+
+    parentDiv.insertAdjacentHTML('beforeend', cardboardcase);
+}
+cardboardMenu();
+
+function otherMenu() {
+    // Récupération de la div parente
+    const parentDiv = document.querySelector(".menuboard");
+    parentDiv.innerHTML = "";
+    var othcase = '<div class="w3-row-padding">' +
+        '<div class="w3-col m2 s10">' +
+        '<div class="w3-card w3-round-xlarge w3-theme" style="">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="40%" height="40%" viewBox="0 0 24 24" class="w3-round-xlarge w3-white" style="fill: #11101d;transform: ;msFilter:;"><path d="M19.707 9.293 19 8.586V6a1 1 0 0 0-1-1h-2.586l-.707-.707-2-2a.999.999 0 0 0-1.414 0l-2 2L8.586 5H6a1 1 0 0 0-1 1v2.586l-.707.707-2 2a.999.999 0 0 0 0 1.414l2 2 .707.707V18a1 1 0 0 0 1 1h2.586l.707.707 2 2a.997.997 0 0 0 1.414 0l2-2 .707-.707H18a1 1 0 0 0 1-1v-2.586l.707-.707 2-2a.999.999 0 0 0 0-1.414l-2-2zm-2.414 5-.293.293V17h-2.414l-.293.293-1 1L12 19.586l-1.293-1.293-1-1L9.414 17H7v-2.414l-.293-.293-1-1L4.414 12l1.293-1.293 1-1L7 9.414V7h2.414l.293-.293 1-1L12 4.414l1.293 1.293 1 1 .293.293H17v2.414l.293.293 1 1L19.586 12l-1.293 1.293-1 1z"></path><path d="M12 8c-2.206 0-4 1.794-4 4s1.794 4 4 4 4-1.794 4-4-1.794-4-4-4z"></path></svg>' +
+        '<div class="w3-container">' +
+        '<h2 style="text-align: end" id="lum">lum</h2>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    parentDiv.insertAdjacentHTML('beforeend', othcase);
+}
+
+function userMenu() {
+    window.location.href = "http://192.168.1.60:32400/web";
+}
+
+function decoMenu() {
+    const parentDiv = document.querySelector(".menuboard");
+    parentDiv.innerHTML = "";
+
+    var decoCase = '<a style="text-decoration: none;font-family: monospace;" href="/"> <div class="btdéco"> <span class="icon">&#128274;</span>Se déconnecter</div></a>';
+
+    parentDiv.insertAdjacentHTML('beforeend', decoCase);
+}
+
+/*setInterval(function ( ) {
+ var xhttp = new XMLHttpRequest();
+ xhttp.onreadystatechange = function() {
+   if (this.readyState == 4 && this.status == 200) {
+     var response = xhttp.responseText;
+     var humval = response;
+   }
+  document.getElementById("hum").innerHTML = humval;
+ };
+ xhttp.open("GET", "/humidity", true);
+ xhttp.send();
+}, 5000 ) ;*/
+
+setInterval(function() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = xhttp.responseText;
+            var tempval = response;
+        }
+        document.getElementById("lum").innerHTML = tempval;
+    };
+    xhttp.open("GET", "/luminosity", true);
+    xhttp.send();
+}, 5000);
+
+
+
+
+
+
+
+
+
+
+
+ 
+  </script>
+</body>
+</html>
